@@ -10,7 +10,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const month = today.getMonth();
   const year = today.getFullYear();
 
-  // populate calendar with 31 days for jan
+  // clear any existing content to prevent offset issues
+  calendar.innerHTML = '';
+
+  // calculate the day of week for the 1st of the month (0=Sun, 1=Mon, ..., 6=Sat)
+  const firstDayOfWeek = new Date(year, month, 1).getDay();
+
+  // add empty divs to offset the calendar so day 1 appears in the correct column
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    let emptyDiv = document.createElement('div');
+    calendar.appendChild(emptyDiv);
+  }
+
+  // populate calendar with days of the month
   [...new Array(daysInMonth(year, month))].forEach((x, i) => {
     let d = document.createElement('div');
     d.setAttribute('data-day', i + 1);
